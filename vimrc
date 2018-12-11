@@ -76,13 +76,14 @@ Plugin 'nvie/vim-flake8'
 "主题插件
 Plugin 'jnurmine/Zenburn'
 Plugin 'altercation/vim-colors-solarized'
-
+"tagbar
+Plugin 'majutsushi/tagbar'
 
 call vundle#end()
 filetype plugin indent on 
 
 " hide pyc
-"let NERDTreeIgnore=['\.pyc$', '\~$'] 
+let NERDTreeIgnore=['\.pyc$', '\~$'] 
 
 
 "主题配置
@@ -100,22 +101,10 @@ call togglebg#map("<F5>")
 let g:SimpylFold_docstring_preview=1
 
 "PEP8"
-au BufNewFile,BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-	\ set textwidth=4
-	\ set expandtab
-	\ set autoindent
-	\ set fileformat=unix
-
-au BufNewFile,BufRead *.js, *.html, *.css
-    \ set tabstop=2
-	\ set softtabstop=2
-	\ set shiftwidth=2
+autocmd BufWritePost *.py call Flake8()
 
 "标记多余空白行"
-au BufRead,BufNewFile *.py, *.pyw, *.c, *.h match BadWhitespace /\s\+$/
+"au BufRead,BufNewFile *.py, *.pyw, *.c, *.h match BadWhitespace /\s\+$/
 
 "YCM自动补全配置"
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -123,8 +112,11 @@ map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 
 let python_highlight_all=1
-syntax on   "开启语法高亮
+syntax on   "开启语法高亮u
 
 "NERDTREE config"
 map <F2> :NERDTreeToggle<CR>
+
+"tagbar 开启
+nmap <F8> :TagbarToggle<CR>
 
