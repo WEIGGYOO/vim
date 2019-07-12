@@ -10,7 +10,10 @@ set showtabline=0
 "设置字体"
 set guifont=Monaco:h13         
 set nowrap  "设置不折行"
-set cindent     "设置C样式的缩进格式"
+set autoindent     "设置C样式的缩进格式"
+set shiftwidth=4
+set softtabstop=4
+
 set showmatch   "显示匹配的括号"
 set scrolloff=5     "距离顶部和底部5行"
 set laststatus=2    "命令行为两行"
@@ -60,7 +63,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'Lokaltog/vim-powerline'
-"Plugin 'Valloric/YouCompleteMe'
 "目录树
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
@@ -82,6 +84,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'majutsushi/tagbar'
 "go 插件
 Plugin 'fatih/vim-go'
+"括号自动补全
+Plugin 'jiangmiao/auto-pairs'
 
 call vundle#end()
 filetype plugin indent on 
@@ -110,8 +114,9 @@ autocmd BufWritePost *.py call Flake8()
 "标记多余空白行"
 "au BufRead,BufNewFile *.py, *.pyw, *.c, *.h match BadWhitespace /\s\+$/
 
-"YCM自动补全配置"
-let g:ycm_autoclose_preview_window_after_completion=1
+
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到定义处
+let g:ycm_confirm_extra_conf=0                  " 关闭加载.ycm_extra_conf.py确认提示
 map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 
