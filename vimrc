@@ -8,7 +8,7 @@ set guioptions-=b
 "隐藏顶部标签栏"
 set showtabline=0
 "设置字体"
-set guifont=Monaco:h13         
+set guifont=Monaco:h18         
 set nowrap  "设置不折行"
 set autoindent     "设置C样式的缩进格式"
 set shiftwidth=4
@@ -77,32 +77,94 @@ Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'nvie/vim-flake8'
 
-"主题插件
-Plugin 'jnurmine/Zenburn'
-Plugin 'altercation/vim-colors-solarized'
 "tagbar
 Plugin 'majutsushi/tagbar'
 "go 插件
 Plugin 'fatih/vim-go'
 "括号自动补全
 Plugin 'jiangmiao/auto-pairs'
+" one主题
+Plugin 'dracula/vim', { 'name': 'dracula' }
+
+Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
-filetype plugin indent on 
 
+filetype plugin indent on 
+" 退出插入模式指定类型文件自动保存
+au InsertLeave *.go write
+
+
+" vim-go 插件
+let g:go_fmt_command = "goimports"
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+let g:go_version_warning = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_generate_tags = 1
+
+let g:godef_split=2
+
+
+" NERDTREE 
+" 打开和关闭NERDTree快捷键
+map <F10> :NERDTreeToggle<CR>
+
+let NERDTreeShowLineNumbers=1
+" 打开文件时是否显示目录
+let NERDTreeAutoCenter=1
+" 是否显示隐藏文件
+let NERDTreeShowHidden=0
 " hide pyc
 let NERDTreeIgnore=['\.pyc$', '\~$'] 
+" 打开 vim 文件及显示书签列表
+let NERDTreeShowBookmarks=2
+" 在终端启动vim时，共享NERDTree
+let g:nerdtree_tabs_open_on_console_startup=1
 
 
-"主题配置
-if has('gui_running')
-    set background=dark
-    colorscheme solarized
-else
-    colorscheme zenburn
-endif
+" majutsushi/tagbar 插件打开关闭快捷键
+nmap <F9> :TagbarToggle<CR>
 
-call togglebg#map("<F5>")
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+
+
+
+"主题配置 one 
+colorscheme dracula
 
 
 "插件文档"
@@ -111,21 +173,13 @@ let g:SimpylFold_docstring_preview=1
 "PEP8"
 autocmd BufWritePost *.py call Flake8()
 
-"标记多余空白行"
-"au BufRead,BufNewFile *.py, *.pyw, *.c, *.h match BadWhitespace /\s\+$/
 
 
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR> " 跳转到定义处
-let g:ycm_confirm_extra_conf=0                  " 关闭加载.ycm_extra_conf.py确认提示
-map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 
-let python_highlight_all=1
 syntax on   "开启语法高亮u
-
-"NERDTREE config"
-map <F2> :NERDTreeToggle<CR>
-
-"tagbar 开启
-nmap <F8> :TagbarToggle<CR>
-
